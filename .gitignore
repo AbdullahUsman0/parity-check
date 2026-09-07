@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Debug / temp outputs
+debug_*.json
+test_output*.json
+test_demo_hybrid*.json
+semantic_scores.json
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

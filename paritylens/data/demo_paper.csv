@@ -1,0 +1,21 @@
+﻿id,question_number,english,urdu,true_mismatch
+D001,1,What is the SI unit of electric current? A) Ampere B) Volt C) Ohm D) Watt,برقی رو کا SI یونٹ کیا ہے؟ A) امیئر B) وولٹ C) اہم D) واٹ,none
+D002,2,Which gas is essential for respiration? A) Oxygen B) Nitrogen C) Carbon dioxide D) Hydrogen,سانس لینے کے لیے کونسی گیس ضروری ہے؟ A) آکسیجن B) نیٹروجن C) کاربن ڈائی آکسائیڈ D) ہائیڈروجن,none
+D003,3,The chemical formula of carbon dioxide is CO₂. A) CO₂ B) CO C) O₂ D) C₂H₆,کاربن ڈائی آکسائیڈ کا کیمیائی فارمولا CO₂ ہے۔ A) CO₂ B) CO C) O₂ D) C₂H₆,none
+D004,4,A body moving with constant velocity has zero acceleration. A) True B) False,وہ جسم جو مستقل رفتار سے چل رہا ہو اس کی اسراع صفر ہوتی ہے۔ A) صحیح B) غلط,none
+D005,5,What is the pH of pure water at 25 °C? A) 7 B) 0 C) 14 D) 1,25 ڈگری سیلسیس پر خالص پانی کی pH قیمت کیا ہوتی ہے؟ A) 7 B) 0 C) 14 D) 1,none
+D006,6,A train travels at 60 km/h for 2 hours. How far does it go? A) 30 km B) 60 km C) 120 km D) 240 km,ایک ٹرین 50 کلومیٹر فی گھنٹہ کی رفتار سے 2 گھنٹے چلتی ہے۔ یہ کتنا فاصلہ طے کرے گی؟ A) 30 کلومیٹر B) 60 کلومیٹر C) 120 کلومیٹر D) 240 کلومیٹر,numeric
+D007,7,A child drinks 250 mL of milk. How many litres is this? A) 0.25 L B) 2.5 L C) 25 L D) 0.025 L,ایک بچہ 250 لیٹر دودھ پیتا ہے۔ یہ کتنے لیٹر ہے؟ A) 0.25 L B) 2.5 L C) 25 L D) 0.025 L,unit
+D008,8,Which of the following is NOT a vector quantity? A) Force B) Velocity C) Mass D) Displacement,مندرجہ ذیل میں سے کونسی ویکٹر مقدار ہے؟ A) قوہ B) سمتار رفتار C) کمیت D) اداریہ,negation
+D009,9,Which planet is known as the Red Planet? A) Venus B) Mars C) Jupiter D) Saturn,کس سیارے کو سرخ سیارہ کہا جاتا ہے؟ A) مریخ B) زہرہ C) مشتری D) زحل,option
+D010,10,What is the role of chlorophyll in photosynthesis? A) Absorb light energy B) Store glucose C) Transport water D) Release oxygen,نظر آنے میں روشنی کی سمت کو تبدیل کرنے کا عمل کیا کہلاتا ہے؟ A) روشنی توانائی جذب کرنا B) گلوکوز ذخیرہ کرنا C) پانی منتقل کرنا D) آکسیجن خارج کرنا,semantic
+D011,11,What is the speed of light in vacuum? A) 3 × 10⁸ m/s B) 3 × 10⁶ m/s C) 3 × 10⁴ m/s D) 3 × 10² m/s,خلا میں روشنی کی رفتار کتنی ہے؟ A) 3 × 10⁸ m/s B) 3 × 10⁶ m/s C) 3 × 10⁴ m/s D) 3 × 10² m/s,none
+D012,12,How many bones are in the adult human body? A) 206 B) 208 C) 210 D) 196,بالغ انسانی جسم میں کتنی ہڈیاں ہوتی ہیں؟ A) 206 B) 208 C) 210 D) 196,none
+D013,13,Which organelle is called the powerhouse of the cell? A) Mitochondria B) Ribosome C) Nucleus D) Chloroplast,سیل کا پاور ہاؤس کس عضیے کو کہا جاتا ہے؟ A) مائٹوکونڈریا B) رائیبوزوم C) نیوکلس D) کلوروپلاسٹ,none
+D014,14,What is the atomic number of oxygen? A) 8 B) 16 C) 6 D) 7,آکسیجن کا ایٹمی نمبر کتنا ہے؟ A) 8 B) 16 C) 6 D) 7,none
+D015,15,"In a right-angled triangle, what is the sum of the other two angles? A) 90° B) 180° C) 45° D) 60°",قائمہ الزاویہ مثلث میں دیگر دو زاویوں کا مجموعہ کتنا ہوتا ہے؟ A) 90° B) 180° C) 45° D) 60°,none
+D016,16,Which vitamin is produced when skin is exposed to sunlight? A) Vitamin D B) Vitamin A C) Vitamin C D) Vitamin B12,جب جلد دھوپ میں آتی ہے تو کون سا وٹامن بنتا ہے؟ A) وٹامن D B) وٹامن A C) وٹامن C D) وٹامن B12,none
+D017,17,What is the main function of red blood cells? A) Transport oxygen B) Fight infection C) Clot blood D) Produce antibodies,سرخ خون کے خلیوں کا بنیادی کام کیا ہے؟ A) آکسیجن منتقل کرنا B) انفیکشن سے لڑنا C) خون جمنا D) اینٹی باڈیز بنانا,none
+D018,18,Which law states that every action has an equal and opposite reaction? A) Newton's third law B) Newton's first law C) Newton's second law D) Law of gravitation,کون سا قانون کہتا ہے کہ ہر عمل کے برابر اور مخالف ردعمل ہوتا ہے؟ A) نیوٹن کا تیسرا قانون B) نیوٹن کا پہلا قانون C) نیوٹن کا دوسرا قانون D) کشش ثقل کا قانون,none
+D019,19,What is the valency of carbon? A) 4 B) 2 C) 3 D) 1,کاربن کی قیمتیہ کتنی ہے؟ A) 4 B) 2 C) 3 D) 1,none
+D020,20,"Which mirror always forms a virtual, erect and diminished image? A) Convex mirror B) Concave mirror C) Plane mirror D) None",کون سا آئینہ ہمیشہ مجازی، سیدھی اور چھوٹی تصویر بناتا ہے؟ A) قوسی دور آئینہ B) قوسی آئینہ C) سطحی آئینہ D) کوئی نہیں,none
