@@ -10,11 +10,17 @@ A prototype bilingual exam-parity auditor for Urdu–English question papers.
 - Presents a reviewer queue in Streamlit.
 - Exports a QA report PDF with accepted/rejected flags.
 
+## Deploy to Streamlit Cloud (one click)
+
+[![Deploy to Streamlit Cloud](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/deploy?repository=AbdullahUsman0/parity-check&branch=master&mainModule=paritylens%2Fapp.py)
+
+Click the badge above, sign in with GitHub, and deploy. The app stays in sync with every push to `master`.
+
 ## Run locally
 
 ```bash
-cd paritylens
 pip install -r requirements.txt
+cd paritylens
 streamlit run app.py
 ```
 
