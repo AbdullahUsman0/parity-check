@@ -628,6 +628,40 @@
         grid-template-columns: 1fr;
       }
     }
+
+    @media print {
+      html, body {
+        overflow: visible;
+        height: auto;
+      }
+      .deck {
+        position: static;
+        width: auto;
+        height: auto;
+      }
+      .slide {
+        position: relative;
+        inset: auto;
+        opacity: 1;
+        pointer-events: auto;
+        transform: none;
+        page-break-after: always;
+        break-after: page;
+        width: 100%;
+        min-height: 100vh;
+        display: flex;
+        padding: 8vh 8vw;
+      }
+      .slide:last-child {
+        page-break-after: auto;
+      }
+      .slide-header, .slide-footer {
+        position: absolute;
+      }
+      .nav-arrows, .nav-hint {
+        display: none !important;
+      }
+    }
   </style>
 </head>
 <body>
