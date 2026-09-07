@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ParityLens — Alibaba Cloud AI Hackathon Pakistan 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&family=Noto+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #0f1b33;
+      --ink-light: #1d2d4f;
+      --bg: #faf9f6;
+      --surface: #ffffff;
+      --accent: #0d9488;
+      --accent-light: #e6f4f3;
+      --warn: #f59e0b;
+      --danger: #dc2626;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --shadow: 0 4px 24px rgba(15, 27, 51, 0.08);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Noto Sans', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+    }
+
+    .deck {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      padding: 6vh 7vw;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(40px);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+      z-index: 0;
+    }
+
+    .slide.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(0);
+      z-index: 10;
+    }
+
+    .slide.prev {
+      transform: translateX(-40px);
+    }
+
+    /* Header / Footer */
+    .slide-header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 6vh;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 7vw;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .slide-footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 6vh;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 7vw;
+      font-size: 0.8rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+
+    .wordmark {
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+    }
+
+    /* Typography */
+    h1 {
+      font-size: clamp(2.8rem, 5.5vw, 5rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      color: var(--ink);
+    }
+
+    h2 {
+      font-size: clamp(1.8rem, 3.2vw, 2.8rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--ink);
+      margin-bottom: 4vh;
+    }
+
+    h3 {
+      font-size: clamp(1.1rem, 1.8vw, 1.4rem);
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 0.6rem;
+    }
+
+    p, li {
+      font-size: clamp(1rem, 1.5vw, 1.25rem);
+      line-height: 1.6;
+      color: var(--ink-light);
+    }
+
+    .lead {
+      font-size: clamp(1.15rem, 1.8vw, 1.45rem);
+      line-height: 1.5;
+      color: var(--ink-light);
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .accent {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .small {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    /* Layout helpers */
+    .center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      height: 100%;
+    }
+
+    .cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4vw;
+      align-items: start;
+      width: 100%;
+    }
+
+    .col {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
+      width: 100%;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+    }
+
+    .card-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.75rem;
+      background: var(--accent-light);
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .card h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+    }
+
+    .card p {
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: var(--muted);
+    }
+
+    /* Tables and lists */
+    ul.clean {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+
+    ul.clean li {
+      position: relative;
+      padding-left: 1.5rem;
+    }
+
+    ul.clean li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.55em;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .two-col-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem 3rem;
+    }
+
+    /* Placeholder box */
+    .placeholder {
+      border: 2px dashed var(--accent);
+      background: var(--accent-light);
+      border-radius: 12px;
+      padding: 1.5rem 2rem;
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+
+    .placeholder p {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 1.05rem;
+    }
+
+    /* Diagrams */
+    .diagram {
+      width: 100%;
+      margin-top: 1rem;
+    }
+
+    .diagram svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Navigation */
+    .nav-hint {
+      position: fixed;
+      bottom: 7vh;
+      right: 7vw;
+      z-index: 100;
+      font-size: 0.75rem;
+      color: var(--muted);
+      background: var(--surface);
+      padding: 0.5rem 0.9rem;
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+    }
+
+    .nav-arrows {
+      position: fixed;
+      bottom: 7vh;
+      left: 7vw;
+      z-index: 100;
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .nav-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--ink);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      transition: all 0.15s ease;
+      box-shadow: var(--shadow);
+    }
+
+    .nav-btn:hover {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    /* Specific slide styles */
+    .title-slide h1 {
+      font-size: clamp(4rem, 9vw, 8rem);
+      letter-spacing: -0.05em;
+      margin-bottom: 2vh;
+    }
+
+    .title-slide .subtitle {
+      font-size: clamp(1.2rem, 2vw, 1.7rem);
+      color: var(--ink-light);
+      max-width: 700px;
+      margin-bottom: 6vh;
+    }
+
+    .title-slide .event {
+      font-size: 0.9rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .mismatch-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+
+    .mismatch-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem;
+      box-shadow: var(--shadow);
+    }
+
+    .mismatch-card .tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      background: var(--accent-light);
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+
+    .mismatch-card h4 {
+      font-size: 0.95rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .mismatch-card p {
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .urdu {
+      font-family: 'Noto Nastaliq Urdu', 'Noto Sans', serif;
+      direction: rtl;
+      line-height: 1.8;
+    }
+
+    .example-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem;
+      box-shadow: var(--shadow);
+    }
+
+    .example-box.highlight {
+      border-color: var(--danger);
+      background: #fef2f2;
+    }
+
+    .example-box .label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .growth-line {
+      width: 100%;
+      height: 180px;
+      position: relative;
+    }
+
+    .gap-bar {
+      display: flex;
+      align-items: flex-end;
+      gap: 3rem;
+      height: 160px;
+      padding: 0 2rem;
+    }
+
+    .gap-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .gap-bar-shape {
+      width: 100%;
+      border-radius: 8px 8px 0 0;
+      background: var(--border);
+    }
+
+    .gap-bar-shape.high {
+      height: 140px;
+      background: var(--accent-light);
+      border: 2px solid var(--accent);
+    }
+
+    .gap-bar-shape.low {
+      height: 55px;
+      background: #f3f4f6;
+    }
+
+    .reviewer-mockup {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+    }
+
+    .reviewer-mockup .panels {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .reviewer-mockup .panel {
+      background: #f8f9fa;
+      border-radius: 8px;
+      padding: 1rem;
+      min-height: 140px;
+    }
+
+    .reviewer-mockup .panel .panel-title {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .reviewer-mockup .panel p {
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .reviewer-mockup .evidence {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .reviewer-mockup .evidence-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--warn);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .reviewer-mockup .actions {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: flex-end;
+    }
+
+    .btn {
+      padding: 0.6rem 1.25rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border: none;
+      cursor: default;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--ink);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+    }
+
+    .source {
+      font-size: 0.7rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 0.5rem;
+      display: block;
+    }
+
+    .is-isnot {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .is-isnot .is, .is-isnot .isnot {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.75rem;
+      box-shadow: var(--shadow);
+    }
+
+    .is-isnot .isnot {
+      border-color: #e5e7eb;
+      background: #f9fafb;
+    }
+
+    .is-isnot h4 {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 1rem;
+      color: var(--accent);
+    }
+
+    .is-isnot .isnot h4 {
+      color: var(--muted);
+    }
+
+    .is-isnot ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    .is-isnot li {
+      font-size: 0.95rem;
+      position: relative;
+      padding-left: 1.4rem;
+    }
+
+    .is-isnot .is li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .is-isnot .isnot li::before {
+      content: "×";
+      position: absolute;
+      left: 0;
+      color: #9ca3af;
+      font-weight: 700;
+    }
+
+    .cta-line {
+      font-size: clamp(1.3rem, 2.2vw, 1.9rem);
+      color: var(--ink-light);
+      max-width: 760px;
+      margin-bottom: 3vh;
+    }
+
+    .next-step {
+      font-size: 1rem;
+      color: var(--muted);
+    }
+
+    @media (max-width: 900px) {
+      .cols, .is-isnot, .reviewer-mockup .panels {
+        grid-template-columns: 1fr;
+      }
+      .mismatch-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .two-col-list {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="deck">
+
+    <!-- Slide 1: Title -->
+    <section class="slide active title-slide">
+      <div class="slide-header">
+        <span>Alibaba Cloud AI Hackathon Pakistan 2026</span>
+      </div>
+      <div class="center">
+        <h1>ParityLens</h1>
+        <p class="subtitle">Catching bilingual exam errors before they reach students.</p>
+        <p class="event">Alibaba Cloud AI Hackathon Pakistan 2026</p>
+      </div>
+      <div class="slide-footer">
+        <span class="wordmark">ParityLens</span>
+        <span>1 / 15</span>
+      </div>
+    </section>
+
+    <!-- Slide 2: The Problem -->
+    <section class="slide">
+      <div class="slide-header">
+        <span>The Problem</span>
+      </div>
+      <h2>Two students. One exam. Two different questions.</h2>
+      <div class="cols" style="align-items: center;">
+        <div class="col">
+          <p class="lead">Pakistani boards publish bilingual Urdu/English question papers so students can answer in the language they know best.</p>
+          <p>A documented Lahore-board case found Urdu and English versions of the same Chemistry and Physics questions that asked <span class="accent">genuinely different things</span> — not awkward wording, different questions.</p>
+          <p><strong>This silently changes who gets which marks, based only on which language paper a student happened to read.</strong></p>
+          <span class="source">Source: reported Lahore board mismatch case</span>
+        </div>
+        <div class="col">
+          <div class="example-box">
+            <div class="label">English version</div>
+            <p>"Which gas is <strong>not</strong> a greenhouse gas?"</p>
+          </div>
+          <div style="text-align:center; color:var(--muted); font-size:1.5rem;">↓</div>
+          <div class="example-box highlight">
+            <div class="label">Urdu version — illustrative example</div>
+            <p class="urdu">"کونسی گیس گرین ہاؤس گیس ہے؟"</p>
+            <p style="margin-top:0.5rem; font-size:0.9rem;">("Which gas <strong>is</strong> a greenhouse gas?")</p>
+          </div>
+          <p class="small" style="text-align:center; margin-top:0.75rem;">Illustrative example, not a real leaked question.</p>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span class="wordmark">ParityLens</span>
+        <span>2 / 15</span>
+      </div>
+    </section>
+
+    <!-- Slide 3: Growing Problem -->
+    <section class="slide">
+      <div class="slide-header">
+        <span>Growing Surface Area</span>
+      </div>
+      <h2>This is expanding, not shrinking.</h2>
+      <div class="cols" style="align-items: center;">
+        <div class="col">
+          <p class="lead">In 2026, the Punjab Board of Technical Education announced it will run Diploma of Information Technology exams in both Urdu and English — explicitly to give students a fairer chance to show what they know.</p>
+          <p>That is the right intention. But <span class="accent">every new bilingual paper is a new surface for silent drift</span>, and right now nothing checks this systematically at scale.</p>
+          <span class="source">Source: Punjab Board of Technical Education, 2026 bilingual DIT announcement</span>
+        </div>
+        <div class="col">
+          <div class="growth-line">
+            <svg viewBox="0 0 400 180" preserveAspectRatio="xMidYMid meet">
+              <defs>
+                <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+                  <path d="M0,0 L0,6 L9,3 z" fill="var(--accent)"/>
+                </marker>
+              </defs>
+              <line x1="40" y1="150" x2="360" y2="150" stroke="#e5e7eb" stroke-width="2"/>
+              <line x1="40" y1="150" x2="360" y2="40" stroke="var(--accent)" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+              <circle cx="40" cy="150" r="5" fill="#9ca3af"/>
+              <circle cx="360" cy="40" r="5" fill="var(--accent)"/>
+              <text x="40" y="170" text-anchor="middle" font-size="11" fill="#6b7280">Today</text>
+              <text x="360" y="170" text-anchor="middle" font-size="11" fill="#6b7280">More bilingual papers</text>
+              <text x="200" y="85" text-anchor="middle" font-size="12" fill="var(--accent)" font-weight="600">Bilingual exam adoption</text>
+            </svg>
+          </div>
+          <p class="small" style="text-align:center;">Conceptual trend. No fabricated numeric data.</p>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span class="wordmark">ParityLens</span>
+        <span>3 / 15</span>
+      </div>
+    </section>
+
+    <!-- Slide 4: Why Generic AI Fails -->
+    <section class="slide">
+      <div class="slide-header">
+        <span>AI Readiness Gap</span>
+      </div>
+      <h2>Urdu is still underserved by AI.</h2>
+      <div class="cols" style="align-items: center;">
+        <div class="col">
+          <p class="lead">Generic translation or QA tools do not already solve this.</p>
+          <p><span class="accent">UrduMMLU (2026)</span> is a benchmark built from 26,431 native Urdu multiple-choice questions drawn from real exam material. It found large performance gaps for current AI models on Urdu-language academic content.</p>
+          <p>That is exactly why a system for this language pair has to be purpose-built, not borrowed off the shelf.</p>
+          <span class="source">Source: UrduMMLU, 2026 benchmark</span>
+        </div>
+        <div class="col">
+          <div class="gap-bar">
+            <div class="gap-item">
+              <div class="gap-bar-shape high"></div>
+              <p style="font-size:0.85rem; text-align:center; font-weight:600;">Performance gap on Urdu academic content</p>
+            </div>
+            <div class="gap-item">
+              <div class="gap-bar-shape low"></div>
+              <p style="font-size:0.85rem; text-align:center; color:var(--muted);">English academic content</p>
+            </div>
+          </div>
+          <p class="small" style="text-align:center; margin-top:1rem;">Illustrative comparison, not exact benchmark scores.</p>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span class="wordmark">ParityLens</span>
+        <span>4 / 15</span>
+      </div>
+    </section>
+
+    <!-- Slide 5: What It Is / Is Not -->
+    <section class="slide">
+      <div class="slide-header">
+        <span>Product Definition</span>
+      </div>
+      <h2>An independent QA gate that checks Urdu/English exam papers mean the same thing, before they print.</h2>
+      <div class="is-isnot">
+        <div class="is">
+          <h4>What it is</h4>
+          <ul>
+            <li>An independent verification layer</li>
+            <li>Applied after both language versions already exist</li>
+            <li>Evidence-backed, with confidence scores</li>
+            <li>Human-reviewed before any verdict</li>
+          </ul>
+        </div>
+        <div class="isnot">
+          <h4>What it is not</h4>
+          <ul>
+            <li>A translator</li>
+            <li>A question generator</li>
+            <li>An autograder</li>
+            <li>A fully automated rejection system</li>
+          </ul>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span class="wordmark">ParityLens</span>
+        <span>5 / 15</span>
+      </div>
+    </section>
+
+    <!-- Slide 6: Pipeline -->
+    <section class="slide">
+      <div class="slide-header">
+        <span>How It Works</span>
+      </div>
+      <h2>From upload to cleared paper.</h2>
+      <div class="diagram">
+        <svg viewBox="0 0 1000 260" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <marker id="arrow2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+              <path d="M0,0 L0,6 L9,3 z" fill="#0d9488"/>
+            </marker>
+          </defs>
+          <style>
+            .pbox { fill: #ffffff; stroke: #e5e7eb; stroke-width: 1.5; rx: 10; }
+            .pbox.active { stroke: #0d9488; fill: #e6f4f3; }
+            .ptext { font-family: 'Noto Sans', sans-serif; font-size: 12px; font-weight: 600; fill: #0f1b33; text-anchor: middle; }
+            .pcap { font-family: 'Noto Sans', sans-serif; font-size: 11px; fill: #6b7280; text-anchor: middle; }
+            .pline { stroke: #0d9488; stroke-width: 2; fill: none; marker-end: url(#arrow2); }
+          </style>
+
+          <!-- Boxes -->
+          <rect x="20" y="60" width="90" height="70" class="pbox"/>
+          <text x="65" y="95" class="ptext">Upload</text>
+          <text x="65" y="112" class="pcap">PDF / images</text>
+
+          <rect x="140" y="60" width="120" height="70" class="pbox"/>
+          <text x="200" y="90" class="ptext">OCR &amp;</text>
+          <text x="200" y="107" class="ptext">Segmentation</text>
+
+          <rect x="290" y="60" width="120" height="70" class="pbox"/>
+          <text x="350" y="90" class="ptext">Bilingual</text>
+          <text x="350" y="107" class="ptext">Alignment</text>
+
+          <rect x="440" y="30" width="130" height="70" class="pbox active"/>
+          <text x="505" y="58" class="ptext">Deterministic</text>
+          <text x="505" y="75" class="ptext">Rule Checks</text>
+          <text x="505" y="92" class="pcap">numbers, units, options...</text>
+
+          <rect x="440" y="120" width="130" height="70" class="pbox active"/>
+          <text x="505" y="148" class="ptext">Semantic</text>
+          <text x="505" y="165" class="ptext">Equivalence</text>
+          <text x="505" y="182" class="pcap">meaning-level drift</text>
+
+          <rect x="610" y="60" width="130" height="70" class="pbox"/>
+          <text x="675" y="90" class="ptext">Risk-Ranked</text>
+          <text x="675" y="107" class="ptext">Reviewer Queue</text>
+
+          <rect x="780" y="60" width="90" height="70" class="pbox"/>
+          <text x="825" y="95" class="ptext">Human</text>
+          <text x="825" y="112" class="ptext">Review</text>
+
+          <rect x="910" y="60" width="70" height="70" class="pbox"/>
+          <text x="945" y="95" class="ptext">Cleared</text>
+          <text x="945" y="112" class="ptext">/ Export</text>
+
+          <!-- Arrows -->
+          <line x1="110" y1="95" x2="140" y2="95" class="pline"/>
+          <line x1="260" y1="95" x2="290" y2="95" class="pline"/>
+          <line x1="410" y1="95" x2="440" y2="80" class="pline"/>
+          <line x1="410" y1="95" x2="440" y2="140" class="pline"/>
+          <line x1="570" y1="80" x2="610" y2="95" class="pline"/>
+          <line x1="570" y1="140" x2="610" y2="95" class="pline"/>
+          <line x1="740" y1="95" x2="780" y2="95" class="pline"/>
+          <line x1="870" y1="95" x2="910" y2="95" class="pline"/>
+        </svg>
+      </div>
+      <p class="lead" style="text-align:center; max-width: 800px; margin: 2vh auto 0;">Every flagged question is shown with the exact evidence that triggered it. A paper is only cleared after a human reviewer signs off.</p>
+      <div class="slide-footer">
+        <span class="wordmark">ParityLens</span>
+        <span>6 / 15</span>
+      </div>
+    </section>
+
+    <!-- Slide 7: Mismatch Taxonomy -->
+    <section class="slide">
+      <div class="slide-header">
+        <span>Mismatch Taxonomy</span>
+      </div>
+      <h2>Six ways a translation can quietly go wrong.</h2>
+      <div class="mismatch-grid">
+        <div class="mismatch-card">
+          <span class="tag">Numeric</span>
+          <h4>Numeric mismatch</h4>
+          <p>"5 kg" becomes "50 kg"</p>
+        </div>
+        <div class="mismatch-card">
+          <span class="tag">Unit</span>
+          <h4>Unit mismatch</h4>
+          <p>kg vs g, °C vs °F</p>
+        </div>
+        <div class="mismatch-card">
+          <span class="tag">Polarity</span>
+          <h4>Negation / polarity</h4>
+          <p>Missing or added "not," "except," "least"</p>
+        </div>
+        <div class="mismatch-card">
+          <span class="tag">Options</span>
+          <h4>Answer-option mismatch</h4>
+          <p>Options don't match in count or content</p>
+        </div>
+        <div class="mismatch-card">
+          <span class="tag">Formula</span>
+          <h4>Formula / symbol mismatch</h4>
+          <p>H₂O vs CO₂, F = ma vs wrong symbol</p>
+        </div>
+        <div class="mismatch-card">
+          <span class="tag">Entity</span>
+          <h4>Named-entity mismatch</h4>
+          <p>Newton vs Einstein, Lahore vs Karachi</p>
+        </div>
+        <div class="mismatch-card">
+          <span class="tag">Condition</span>
+          <h4>Missing condition</h4>
+          <p>"at constant temperature" dropped</p>
+        </div>
+        <div class="mismatch-card">
+          <span class="tag" style="background:#fef3c7; color:#d97706;">Semantic</span>
+          <h4>Semantic drift</h4>
+          <p>Both versions look fine, but ask different questions</p>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span class="wordmark">ParityLens</span>
+        <span>7 / 15</span>
+      </div>
+    </section>
+
+    <!-- Slide 8: Architecture -->
+    <section class="slide">
+      <div class="slide-header">
+        <span>Technical Architecture</span>
+      </div>
+      <h2>What's actually running under the hood.</h2>
+      <div class="diagram">
+        <svg viewBox="0 0 900 300" preserveAspectRatio="xMidYMid meet">
+          <style>
+            .abox { fill: #ffffff; stroke: #e5e7eb; stroke-width: 1.5; rx: 10; }
+            .abox.hl { stroke: #0d9488; fill: #e6f4f3; }
+            .atext { font-family: 'Noto Sans', sans-serif; font-size: 12px; font-weight: 600; fill: #0f1b33; text-anchor: middle; }
+            .asmall { font-family: 'Noto Sans', sans-serif; font-size: 10px; fill: #6b7280; text-anchor: middle; }
+            .aarrow { stroke: #0d9488; stroke-width: 2; fill: none; marker-end: url(#arrow2); }
+            .aarrow-gray { stroke: #d1d5db; stroke-width: 1.5; fill: none; }
+          </style>
+
+          <!-- OCR -->
+          <rect x="20" y="115" width="130" height="70" class="abox hl"/>
+          <text x="85" y="145" class="atext">Vision-Language</text>
+          <text x="85" y="162" class="atext">OCR</text>
+          <text x="85" y="178" class="asmall">RTL Urdu + LTR English</text>
+
+          <!-- Alignment -->
+          <rect x="180" y="115" width="150" height="70" class="abox"/>
+          <text x="255" y="145" class="atext">Question Segmentation</text>
+          <text x="255" y="162" class="atext">&amp; Bilingual Alignment</text>
+
+          <!-- Parallel tracks -->
+          <rect x="370" y="40" width="160" height="70" class="abox hl"/>
+          <text x="450" y="70" class="atext">Deterministic</text>
+          <text x="450" y="87" class="atext">Rules Engine</text>
+          <text x="450" y="103" class="asmall">numbers, units, negation...</text>
+
+          <rect x="370" y="190" width="160" height="70" class="abox hl"/>
+          <text x="450" y="220" class="atext">Cross-Lingual Semantic</text>
+          <text x="450" y="237" class="atext">Equivalence Model</text>
+          <text x="450" y="253" class="asmall">meaning-level drift</text>
+
+          <!-- Evidence layer -->
+          <rect x="570" y="115" width="150" height="70" class="abox"/>
+          <text x="645" y="145" class="atext">Confidence-Scored</text>
+          <text x="645" y="162" class="atext">Evidence Layer</text>
+
+          <!-- Reviewer -->
+          <rect x="760" y="115" width="120" height="70" class="abox"/>
+          <text x="820" y="145" class="atext">Reviewer</text>
+          <text x="820" y="162" class="atext">Interface</text>
+
+          <!-- Arrows -->
+          <line x1="150" y1="150" x2="180" y2="150" class="aarrow"/>
+          <line x1="330" y1="150" x2="370" y2="90" class="aarrow"/>
+          <line x1="330" y1="150" x2="370" y2="240" class="aarrow"/>
+          <line x1="530" y1="90" x2="570" y2="135" class="aarrow"/>
+          <line x1="530" y1="240" x2="570" y2="165" class="aarrow"/>
+          <line x1="720" y1="150" x2="760" y2="150" class="aarrow"/>
+
+          <!-- Note -->
+          <text x="450" y="290" class="asmall" style="font-style:italic;">Rules and semantic model run independently and are evaluated separately — a deliberate hybrid design.</text>
+        </svg>
+      </div>
+      <div class="slide-footer">
+        <span class="wordmark">ParityLens</span>
+        <span>8 / 15</span>
+      </div>
+    </section>
+
+    <!-- Slide 9: Reviewer Experience -->
+    <section class="slide">
+      <div class="slide-header">
+        <span>Reviewer Experience</span>
+      </div>
+      <h2>The human stays in control.</h2>
+      <div class="reviewer-mockup">
+        <div class="panels">
+          <div class="panel">
+            <div class="panel-title">English question</div>
+            <p>"A car travels <strong>60 km</strong> in <strong>2 hours</strong>. What is its average speed?"</p>
+          </div>
+          <div class="panel">
+            <div class="panel-title">Urdu question</div>
+            <p class="urdu">"ایک کار <strong>60 کلومیٹر</strong> فی <strong>گھنٹہ</strong> چلتی ہے۔ اوسط رفتار کتنی ہے؟"</p>
+            <p style="margin-top:0.5rem; font-size:0.8rem; color:var(--muted);">("60 km per hour" — unit/time condition differs)</p>
+          </div>
+        </div>
+        <div class="evidence">
+          <div class="evidence-icon">!</div>
+          <div>
+            <strong style="font-size:0.95rem;">Unit / condition mismatch detected</strong>
+            <p style="font-size:0.85rem; margin-top:0.2rem;">English: "in 2 hours" · Urdu: "per hour" · Confidence: 0.91</p>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="btn btn-outline">Reject flag</button>
+          <button class="btn btn-primary">Accept flag</button>
+        </div>
+      </div>
+      <p class="lead" style="margin-top: 3vh;">A paper is only cleared after human sign-off. The system never declares a paper wrong on its own.</p>
+      <div class="slide-footer">
+        <span class="wordmark">ParityLens</span>
+        <span>9 / 15</span>
+      </div>
+    </section>
+
+    <!-- Slide 10: Validation -->
+    <section class="slide">
+      <div class="slide-header">
+        <span>Validation</span>
+      </div>
+      <h2>How we're proving it actually works.</h2>
+      <div class="cols">
+        <div class="col">
+          <p class="lead">Benchmark of 100–300 real bilingual questions with controlled, seeded defects across every mismatch category.</p>
+          <ul class="clean">
+            <li>Precision, recall, F1 per category</li>
+            <li>False positives per 100 questions</li>
+            <li>End-to-end latency per paper</li>
+          </ul>
+          <p>Three-way comparison: <span class="accent">rules-only</span> vs. <span class="accent">semantic-only</span> vs. <span class="accent">hybrid</span>.</p>
+        </div>
+        <div class="col">
+          <div class="placeholder">
+            <p>Live benchmark results — insert after evaluation run</p>
+            <p style="font-size:0.85rem; margin-top:0.5rem; font-weight:400; color:#6b7280;">Placeholder for precision / recall / F1 numbers</p>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span class="wordmark">ParityLens</span>
+        <span>10 / 15</span>
+      </div>
+    </section>
+
+    <!-- Slide 11: Differentiation -->
+    <section class="slide">
+      <div class="slide-header">
+        <span>Differentiation</span>
+      </div>
+      <h2>We are not competing with authoring tools.</h2>
+      <div class="cols" style="align-items: center;">
+        <div class="col">
+          <p class="lead">The obvious question: don't multilingual assessment systems already exist?</p>
+          <p>Some do — for <span class="accent">authoring</span> and <span class="accent">translation</span>. ParityLens is neither. It is an independent <span class="accent">post-authoring verification gate</span> built around the specific failure modes of Urdu/English exam pairs.</p>
+          <p>As of an August 2026 public-web search, we did not find a close public Pakistan deployment matching this exact end-to-end workflow.</p>
+        </div>
+        <div class="col">
+          <div class="card">
+            <h3>Honest framing</h3>
+            <p style="color:var(--muted);">We are not claiming "world's first." We are claiming a narrow, defensible gap that no public system we could find is closing.</p>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span class="wordmark">ParityLens</span>
+        <span>11 / 15</span>
+      </div>
+    </section>
+
+    <!-- Slide 12: Use Cases -->
+    <section class="slide">
+      <div class="slide-header">
+        <span>Use Cases</span>
+      </div>
+      <h2>Anywhere a bilingual exam gets printed.</h2>
+      <div class="cards">
+        <div class="card">
+          <div class="card-icon">B</div>
+          <h4>Examination boards</h4>
+          <p>BISE-style boards clearing SSC/HSSC and diploma papers before print.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">T</div>
+          <h4>Technical / diploma boards</h4>
+          <p>Bilingual diploma rollouts where numeric and unit drift is most likely.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">S</div>
+          <h4>Schools &amp; coaching centers</h4>
+          <p>In-house bilingual test papers with no dedicated proofreading staff.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">P</div>
+          <h4>Publishers</h4>
+          <p>Bilingual practice material and past-paper compilations reproduced at scale.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">G</div>
+          <h4>Beyond Pakistan</h4>
+          <p>Any multilingual education system facing the same structural risk.</p>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span class="wordmark">ParityLens</span>
+        <span>12 / 15</span>
+      </div>
+    </section>
+
+    <!-- Slide 13: Responsible AI -->
+    <section class="slide">
+      <div class="slide-header">
+        <span>Responsible AI</span>
+      </div>
+      <h2>Built to be trusted with confidential exam material.</h2>
+      <div class="cards" style="grid-template-columns: repeat(3, 1fr);">
+        <div class="card">
+          <div class="card-icon">1</div>
+          <h4>Human review is final</h4>
+          <p>A paper is only cleared after a human reviewer signs off.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">2</div>
+          <h4>No automatic verdicts</h4>
+          <p>Low-confidence flags are routed to a reviewer, never treated as fact.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">3</div>
+          <h4>Secure by default</h4>
+          <p>Encrypted storage, short retention, role-based access. Uploaded papers are not used to train models by default.</p>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span class="wordmark">ParityLens</span>
+        <span>13 / 15</span>
+      </div>
+    </section>
+
+    <!-- Slide 14: What We Didn't Build -->
+    <section class="slide">
+      <div class="slide-header">
+        <span>Scope Discipline</span>
+      </div>
+      <h2>Deliberately narrow, on purpose.</h2>
+      <div class="cols" style="align-items: center;">
+        <div class="col">
+          <div class="two-col-list">
+            <div class="card" style="box-shadow:none; border-color:#e5e7eb;">
+              <p style="font-weight:600; color:var(--muted);">Not in scope</p>
+              <ul class="clean" style="margin-top:0.75rem;">
+                <li>Student-facing app</li>
+                <li>LMS integration</li>
+                <li>Exam generator</li>
+                <li>Plagiarism detector</li>
+                <li>Full exam-board workflow replacement</li>
+              </ul>
+            </div>
+            <div class="card" style="background:var(--accent-light); border-color:var(--accent);">
+              <p style="font-weight:600; color:var(--accent);">Why this matters</p>
+              <p style="margin-top:0.75rem; font-size:0.95rem;">Staying narrow is what made a working, evidence-backed prototype possible in six days. One job, done well.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <p class="lead">Judges see a lot of broad ideas. A clearly bounded one is easier to believe.</p>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span class="wordmark">ParityLens</span>
+        <span>14 / 15</span>
+      </div>
+    </section>
+
+    <!-- Slide 15: Closing -->
+    <section class="slide title-slide">
+      <div class="slide-header">
+        <span>Closing</span>
+      </div>
+      <div class="center">
+        <h1>ParityLens</h1>
+        <p class="cta-line">ParityLens doesn't grade the exam. It makes sure both versions are asking the same one.</p>
+        <p class="next-step">Next step: pilot with an examination board, school network, or publisher.</p>
+      </div>
+      <div class="slide-footer">
+        <span class="wordmark">ParityLens</span>
+        <span>15 / 15</span>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="nav-arrows">
+    <button class="nav-btn" id="prevBtn" aria-label="Previous slide">‹</button>
+    <button class="nav-btn" id="nextBtn" aria-label="Next slide">›</button>
+  </div>
+  <div class="nav-hint">Use arrow keys or click to navigate</div>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    let current = 0;
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.remove('active', 'prev');
+        if (i === index) {
+          slide.classList.add('active');
+        } else if (i < index) {
+          slide.classList.add('prev');
+        }
+      });
+      current = index;
+    }
+
+    function next() {
+      if (current < slides.length - 1) showSlide(current + 1);
+    }
+
+    function prev() {
+      if (current > 0) showSlide(current - 1);
+    }
+
+    document.getElementById('nextBtn').addEventListener('click', next);
+    document.getElementById('prevBtn').addEventListener('click', prev);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+        e.preventDefault();
+        next();
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        prev();
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        showSlide(0);
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        showSlide(slides.length - 1);
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      const x = e.clientX;
+      const width = window.innerWidth;
+      if (x > width * 0.75) next();
+      else if (x < width * 0.25) prev();
+    });
+  </script>
+</body>
+</html>
